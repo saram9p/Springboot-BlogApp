@@ -1,11 +1,12 @@
 package com.cos.blogapp.web;
 
-import org.apache.catalina.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.cos.blogapp.domain.user.User;
 import com.cos.blogapp.domain.user.UserRepository;
+import com.cos.blogapp.web.dto.JoinReqDto;
 import com.cos.blogapp.web.dto.LoginReqDto;
 
 //@RequiredArgsConstructor // 꼭 필요한 Argument들은 생성자를 만든다
@@ -67,6 +68,12 @@ private UserRepository userRepository;
 		// 4. session에 저장
 		// 5. 메인페이지를 돌려주기
 		return "home";
+	}
+	
+	@PostMapping("/join")
+	public String join(JoinReqDto dto) { // username =love&password=1234&email=love@nate.com
+		userRepository.save(dto.toEntity());
+		return "redirect:/loginForm"; // 리다이렉션 (300)
 	}
 	
 }
